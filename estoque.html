@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Estoque</h1>
+        <div id="produtosContainer"></div>
+        <button onclick="window.location.href='index.html'">Voltar ao Menu</button>
+    </div>
+
+    <script>
+        // Função para carregar produtos do localStorage
+        function carregarProdutos() {
+            const produtosArmazenados = localStorage.getItem('produtos');
+            return produtosArmazenados ? JSON.parse(produtosArmazenados) : [];
+        }
+
+        // Função para exibir produtos na página
+        function exibirProdutos() {
+            const produtos = carregarProdutos();
+            const produtosContainer = document.getElementById('produtosContainer');
+
+            if (produtos.length === 0) {
+                produtosContainer.innerHTML = '<p>Nenhum produto cadastrado.</p>';
+                return;
+            }
+
+            const listaProdutos = produtos.map(prod => `
+                <div class="produto">
+                    <img src="${prod.imagem}" alt="${prod.nome}" style="width: 100px; height: 100px; object-fit: cover;">
+                    <p><strong>Nome:</strong> ${prod.nome}</p>
+                    <p><strong>Quantidade:</strong> ${prod.quantidade}</p>
+                    <p><strong>Validade:</strong> ${prod.validade}</p>
+                    <p><strong>Data de Entrada:</strong> ${prod.dataEntrada}</p>
+                </div>
+                <hr>
+            `).join('');
+
+            produtosContainer.innerHTML = listaProdutos;
+        }
+
+        // Exibir produtos ao carregar a página
+        exibirProdutos();
+    </script>
+</body>
+</html>
